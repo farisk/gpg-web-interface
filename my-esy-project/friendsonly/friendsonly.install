@@ -1,0 +1,16 @@
+lib: [
+  "_build/install/default/lib/friendsonly/META" {"META"}
+  "_build/install/default/lib/friendsonly/opam" {"opam"}
+  "_build/install/default/lib/friendsonly/friendsonly.cmi" {"friendsonly.cmi"}
+  "_build/install/default/lib/friendsonly/friendsonly.cmx" {"friendsonly.cmx"}
+  "_build/install/default/lib/friendsonly/friendsonly.cmt" {"friendsonly.cmt"}
+  "_build/install/default/lib/friendsonly/friendsonly.re" {"friendsonly.re"}
+  "_build/install/default/lib/friendsonly/friendsonly.cma" {"friendsonly.cma"}
+  "_build/install/default/lib/friendsonly/friendsonly.cmxa" {"friendsonly.cmxa"}
+  "_build/install/default/lib/friendsonly/friendsonly.a" {"friendsonly.a"}
+  "_build/install/default/lib/friendsonly/friendsonly.cmxs" {"friendsonly.cmxs"}
+  "_build/install/default/lib/friendsonly/friendsonly.dune" {"friendsonly.dune"}
+]
+doc: [
+  "_build/install/default/doc/friendsonly/README.md"
+]

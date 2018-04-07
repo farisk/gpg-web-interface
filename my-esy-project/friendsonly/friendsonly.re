@@ -1,4 +1,3 @@
-
 type message = {
   subject: string,
   from: string,
@@ -13,24 +12,27 @@ type config = {
 
 type friend_error = BAD_SIGNATURE | NO_SUCH_FRIEND;
 
-module type Config = {
-  type key = string;
-  type name = string;
-  type signature = string;
+type key = string;
+type name = string;
+type signature = string;
 
+module type StoreConfig = {
   let get_friend_key: (key) => option(key);
-  let check_signature: (message, key) => bool;
   let store: (message) => result(string, friend_error);
 };
 
+module type Crypto = {
+  let check_signature: (message, key) => bool;
+};
 
-module Make = (Conf: Config) => {
+module Make = (Store: StoreConfig, Crypto: Crypto) => {
   let store_message = (message: message) => {
     message.from |>
-    Conf.get_friend_key |>
+    Store.get_friend_key |>
     fun 
-      | Some (key) => key |> Conf.check_signature(message) ? Conf.store(message) : Error(BAD_SIGNATURE)
+      | Some (key) => key |> Crypto.check_signature(message) ? Store.store(message) : Error(BAD_SIGNATURE)
       | None => Error(NO_SUCH_FRIEND)
   };
-
 };
+
+let version = "0.1";
