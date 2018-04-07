@@ -1,0 +1,11 @@
+An API to give me messages from those I trust.
+
+
+Beware:
+1. Communications to the API should be protected
+under https, to prevent replay. On the program level,
+reply is prevented by a store of signatures over time,
+meaning the same message can not be sent twice
+if it is signed with the same key.
+
+

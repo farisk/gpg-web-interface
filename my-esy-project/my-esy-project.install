@@ -1,0 +1,23 @@
+lib: [
+  "_build/install/default/lib/my-esy-project/META" {"META"}
+  "_build/install/default/lib/my-esy-project/opam" {"opam"}
+  "_build/install/default/lib/my-esy-project/lib.cmi" {"lib.cmi"}
+  "_build/install/default/lib/my-esy-project/lib.cmx" {"lib.cmx"}
+  "_build/install/default/lib/my-esy-project/lib.cmt" {"lib.cmt"}
+  "_build/install/default/lib/my-esy-project/lib.ml-gen" {"lib.ml-gen"}
+  "_build/install/default/lib/my-esy-project/lib__Util.cmi" {"lib__Util.cmi"}
+  "_build/install/default/lib/my-esy-project/lib__Util.cmx" {"lib__Util.cmx"}
+  "_build/install/default/lib/my-esy-project/lib__Util.cmt" {"lib__Util.cmt"}
+  "_build/install/default/lib/my-esy-project/Util.ml" {"Util.ml"}
+  "_build/install/default/lib/my-esy-project/lib.cma" {"lib.cma"}
+  "_build/install/default/lib/my-esy-project/lib.cmxa" {"lib.cmxa"}
+  "_build/install/default/lib/my-esy-project/lib.a" {"lib.a"}
+  "_build/install/default/lib/my-esy-project/lib.cmxs" {"lib.cmxs"}
+  "_build/install/default/lib/my-esy-project/my-esy-project.dune" {"my-esy-project.dune"}
+]
+bin: [
+  "_build/install/default/bin/hello" {"hello"}
+]
+doc: [
+  "_build/install/default/doc/my-esy-project/README.md"
+]
