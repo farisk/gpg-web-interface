@@ -1,0 +1,7 @@
+(jbuild_version 1)
+
+(library
+ ((name unixcrypto)
+  (public_name unixcrypto)
+  (libraries (friendsonly lwt))
+  ))

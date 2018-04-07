@@ -1,0 +1,16 @@
+lib: [
+  "_build/install/default/lib/unixcrypto/META" {"META"}
+  "_build/install/default/lib/unixcrypto/opam" {"opam"}
+  "_build/install/default/lib/unixcrypto/unixcrypto.cmi" {"unixcrypto.cmi"}
+  "_build/install/default/lib/unixcrypto/unixcrypto.cmx" {"unixcrypto.cmx"}
+  "_build/install/default/lib/unixcrypto/unixcrypto.cmt" {"unixcrypto.cmt"}
+  "_build/install/default/lib/unixcrypto/unixcrypto.re" {"unixcrypto.re"}
+  "_build/install/default/lib/unixcrypto/unixcrypto.cma" {"unixcrypto.cma"}
+  "_build/install/default/lib/unixcrypto/unixcrypto.cmxa" {"unixcrypto.cmxa"}
+  "_build/install/default/lib/unixcrypto/unixcrypto.a" {"unixcrypto.a"}
+  "_build/install/default/lib/unixcrypto/unixcrypto.cmxs" {"unixcrypto.cmxs"}
+  "_build/install/default/lib/unixcrypto/unixcrypto.dune" {"unixcrypto.dune"}
+]
+doc: [
+  "_build/install/default/doc/unixcrypto/README.md"
+]

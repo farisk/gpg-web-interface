@@ -1,11 +1,7 @@
-print_string("Starting program...");
-print_string(Friendsonly.version);
-
-
-let test_data = {|-----BEGIN PGP SIGNED MESSAGE-----
+-----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA512
 
-hello world! this is the original message buts
+hello world! this is the original message
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
@@ -22,6 +18,4 @@ CWuYtowo65AN+V84evejnPcHjB1+UUHsmGolPy50xyub7xFa4QMA3espXxOQ5oSq
 1oTRYsXvcM/+wUE9RWVzI3vLAtrbCTwG6MBrpjNzo+yDaEprwO2H4nrh/E4sNhXo
 VHxaSf3cjQwZvUZ7miwV
 =lX8e
------END PGP SIGNATURE-----|};
-
-Lwt_main.run(Unixcrypto.main(test_data));
+-----END PGP SIGNATURE-----
