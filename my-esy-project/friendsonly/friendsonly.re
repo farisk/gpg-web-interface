@@ -11,28 +11,26 @@ type config = {
   history_path: string,
 };
 
-type history = list(string);
-
+type friend_error = BAD_SIGNATURE | NO_SUCH_FRIEND;
 
 module type Config = {
-  let friends: list((string,string));
-  let history: string;
+  type key = string;
+  type name = string;
+  type signature = string;
+
+  let get_friend_key: (key) => option(key);
+  let check_signature: (message, key) => bool;
+  let store: (message) => result(string, friend_error);
 };
 
-module Make = (Conf: Config) => {
-  
-  let check_signature = (key, message) => {
-    Ok("all is well?");
-  };
- 
-  let get_friend_key = (name: string) => List.assoc_opt(name, Conf.friends);
 
-  let check_message = (message: message) => {
+module Make = (Conf: Config) => {
+  let store_message = (message: message) => {
     message.from |>
-    get_friend_key |>
+    Conf.get_friend_key |>
     fun 
-      | Some (key) => key |> check_signature(message)
-      | None => Error("no such friend")
+      | Some (key) => key |> Conf.check_signature(message) ? Conf.store(message) : Error(BAD_SIGNATURE)
+      | None => Error(NO_SUCH_FRIEND)
   };
 
 };
