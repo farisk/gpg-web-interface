@@ -1,10 +1,23 @@
-An API to give me messages from those I trust.
+#An API to give me messages from those I trust.
 
+## Things I should do
+1. The sender of the message should also have guarantees around if the message is being sent
+to the intended recipient. Three: 
+  1. HTTPS + Certificate 
+  2. The server should responded by signing the message with the recievers private key. This
+      would alert the user to compare after the fact which is better than nothing.
 
-Beware:
+## What would be nice
+1. The store stage should not be associated with a single action, e.g: saving to disk. But,
+may involve multiple events with a programmable configuration. i.e if sender is one of X send SMS. For all, send e-mail.
+The server should be a middleware confirming the identity of users.
+2. File support.
+3. Unikernel per GPG instance
+
+##Beware
 1. Communications to the API should be protected
-under https, to prevent replay. On the program level,
-reply is prevented by a store of signatures over time,
+under https, to prevent replay attack. On the program level,
+reply is (will be?) prevented by a store of signatures over time,
 meaning the same message can not be sent twice
 if it is signed with the same key.
 

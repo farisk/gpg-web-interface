@@ -5,7 +5,7 @@ print_string(Friendsonly.version);
 let test_data = {|-----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA512
 
-hello world! this is the original message buts
+hello world! this is the original message
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
@@ -24,4 +24,8 @@ VHxaSf3cjQwZvUZ7miwV
 =lX8e
 -----END PGP SIGNATURE-----|};
 
-Lwt_main.run(Unixcrypto.main(test_data));
+let msg: Friendsonly.message = {
+  body: test_data,
+};
+
+Lwt_main.run(Unixcrypto.BasicFriendsonly.store_message(msg));

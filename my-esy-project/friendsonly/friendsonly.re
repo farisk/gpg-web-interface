@@ -1,7 +1,6 @@
+open Lwt.Infix;
+
 type message = {
-  subject: string,
-  from: string,
-  signature: string,
   body: string,
 };
 
@@ -17,22 +16,23 @@ type name = string;
 type signature = string;
 
 module type StoreConfig = {
-  let get_friend_key: (key) => option(key);
-  let store: (message) => result(string, friend_error);
+  let store: (message) => string;
 };
 
 module type Crypto = {
-  let check_signature: (message, key) => bool;
+  let check_signature: (string) => Lwt.t(result(string,friend_error));
 };
+
 
 module Make = (Store: StoreConfig, Crypto: Crypto) => {
   let store_message = (message: message) => {
-    message.from |>
-    Store.get_friend_key |>
-    fun 
-      | Some (key) => key |> Crypto.check_signature(message) ? Store.store(message) : Error(BAD_SIGNATURE)
-      | None => Error(NO_SUCH_FRIEND)
+      message.body |> 
+      Crypto.check_signature >|=
+        fun
+          | Ok(_) => Ok(Store.store(message))
+          | Error(err) => Error(err)
   };
 };
 
 let version = "0.1";
+

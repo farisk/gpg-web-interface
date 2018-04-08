@@ -3,4 +3,5 @@
 (library
  ((name friendsonly)
   (public_name friendsonly)
+  (libraries (lwt))
   ))
