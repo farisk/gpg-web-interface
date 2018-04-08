@@ -1,0 +1,16 @@
+lib: [
+  "_build/install/default/lib/restinterface/META" {"META"}
+  "_build/install/default/lib/restinterface/opam" {"opam"}
+  "_build/install/default/lib/restinterface/restinterface.cmi" {"restinterface.cmi"}
+  "_build/install/default/lib/restinterface/restinterface.cmx" {"restinterface.cmx"}
+  "_build/install/default/lib/restinterface/restinterface.cmt" {"restinterface.cmt"}
+  "_build/install/default/lib/restinterface/restinterface.re" {"restinterface.re"}
+  "_build/install/default/lib/restinterface/restinterface.cma" {"restinterface.cma"}
+  "_build/install/default/lib/restinterface/restinterface.cmxa" {"restinterface.cmxa"}
+  "_build/install/default/lib/restinterface/restinterface.a" {"restinterface.a"}
+  "_build/install/default/lib/restinterface/restinterface.cmxs" {"restinterface.cmxs"}
+  "_build/install/default/lib/restinterface/restinterface.dune" {"restinterface.dune"}
+]
+doc: [
+  "_build/install/default/doc/restinterface/README.md"
+]

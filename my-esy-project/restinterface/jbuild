@@ -1,0 +1,21 @@
+(jbuild_version 1)
+
+(library
+ ((name restinterface)
+  (public_name restinterface)
+  (preprocess (
+               pps (
+                    ppx_deriving_yojson
+                    ppx_deriving.std
+                    )
+               ))
+  (libraries (
+              opium
+              yojson
+              lwt
+              ppx_deriving_yojson.runtime
+              friendsonly
+            )
+  )
+ )
+)

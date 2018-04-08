@@ -23,6 +23,9 @@ module type Crypto = {
   let check_signature: (string) => Lwt.t(result(string,friend_error));
 };
 
+module type FriendsOnly = {
+  let store_message: (message) => Lwt.t(result(string, friend_error));
+};
 
 module Make = (Store: StoreConfig, Crypto: Crypto) => {
   let store_message = (message: message) => {

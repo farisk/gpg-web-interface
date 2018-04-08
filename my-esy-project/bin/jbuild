@@ -3,4 +3,4 @@
 (executable
  ((name hello)
   (public_name hello)
-  (libraries (lib friendsonly unixcrypto))))
+  (libraries (lib friendsonly unixcrypto restinterface))))
