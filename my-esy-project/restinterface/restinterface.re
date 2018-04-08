@@ -32,7 +32,7 @@ type new_message = {
   message: string,
 };
 
-
+let accept_options = App.options("**", (_) => respond'(`String("OK")));
 module Make = (FriendsOnly: Friendsonly.FriendsOnly) => {
   /*let json_of_pages = ({titles}) =>
     Ezjsonm.(dict([("titles", Ezjsonm.list(Ezjsonm.encode_string, titles ))]));
@@ -72,6 +72,7 @@ module Make = (FriendsOnly: Friendsonly.FriendsOnly) => {
 
     App.empty |> 
     middleware(allow_cors) |> 
+    accept_options |>
     middleware(Opium.Middleware.debug) |>
     middleware(Opium.Middleware.trace) |> 
     middleware(my_logging_middleware) |>

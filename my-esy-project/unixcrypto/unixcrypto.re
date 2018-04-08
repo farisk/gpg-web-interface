@@ -56,10 +56,6 @@ module GPGChecker: Friendsonly.Crypto = {
     let command = ("", [|"sh", "gpg_runner.sh", file|]); 
     Lwt_process.pread(command) >|=
       (out) => {
-        print_string("\n=======");
-        print_string(out);  
-        print_string("\n=======");
-        print_string((FKStr.contains(out, "gpg: Good signature") ? "yes" : "no"));
         FKStr.contains(out, "gpg: Good signature") ? Ok(text) : Error(Friendsonly.BAD_SIGNATURE)
       };
   }; 
