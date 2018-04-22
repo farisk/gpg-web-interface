@@ -1,0 +1,96 @@
+Cryto shit
+
+1. Start a thread with a public key
+
+
+
+Requirements
+
+1. It should work as an API in within itself. 
+  i.e: It should not require client side intervention, but the 
+       client may make it much easier to use by doing encryption
+       in the browser.
+
+
+
+MVP:
+Vision a very simple template. It may be an SPA just because its easier
+to knock out something really quickly.
+
+1. Start a thread which has the following properties
+  + Founding time
+  + Expiry time 
+      + preset
+      + but non-paid accounts may have a default)
+      + On expiry you can delete or pay to regenerate a key?
+  + id (F)
+  + encrypted payloads ( these neve change ). Encypted using some 
+    symmetric key generated and encrypted with the users public key. (F) 
+
+2. Inviting other people. (F)
+  + The key would have to be sent by encrypting it client side with the new dudes private key
+  + This payload is stored in the database like (1)
+  + The recipent can now do actions in (1)
+
+3. Advanced stuff which I won't do
+  + Permissions based on gpg identity
+  
+TODO:
+  + Find a way to generate and do encrytion in the browser
+  + Store this shit server side. Just use SQLite.
+
+
+Models:
+
+Endpoints (* for encrypted)
+1. POST /thread
+request { message: {  body: string }}
+response { id: xxx, thread: [{ message:*{body: string},author: string, signed: string, date: server_time_stamp}]
+
+2. GET /thread/:id/
+response { id: xxx, thread: [{ message:*{body: string}, date: server_time_stamp}]
+
+====
+Advanced features
+1. Thread should be tied to an owner public key which can sign commands
+  + { id.... date... action(comprimised, delete) }
+
+=================================================
+Problems:
+Client side trust
++ Why should someone paste their private key into some browser side application?
+
+Answer: Client side problem. User should mitigate as appropriate. OR, delegate
+the problem to a local GPG instance
+
+
+Lets simplify things....
+Thread creation with a shared key. It is up to the user to share the key
+via a secuire communication channel. So now, we only need to implement endpoint
+1. We may assign an optional hash
+2. Key sharing is now left to the user, this is a seperate problem to be solved by a seperate invitations application.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

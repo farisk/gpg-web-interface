@@ -1,8 +1,8 @@
 open Lwt;
 
 
-let path = "/Users/noor/Documents/projects/friends-only/cache";
-let save = "/Users/noor/Documents/projects/friends-only/save";
+let path = "../cache";
+let save = "../save";
 
 /* TODO: replace with a function from CORE if anything
    becomes of this */
