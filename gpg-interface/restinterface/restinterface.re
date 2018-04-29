@@ -47,13 +47,7 @@ type messages = {
 
 let accept_options = App.options("**", (_) => respond'(`String("OK")));
 
-/* vs_to_yojson */
-
-
 module Make = (FriendsOnly: Friendsonly.FriendsOnly, Challenger: Challenger.Challenger ) => {
-  /*let json_of_pages = ({titles}) =>
-    Ezjsonm.(dict([("titles", Ezjsonm.list(Ezjsonm.encode_string, titles ))]));
-  */
 
   let execute_new_message = (new_message) => {
     let s: Friendsonly.message = {body: new_message.message};
