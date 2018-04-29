@@ -49,12 +49,31 @@ let write_file = (~save_path=path, data) => {
   save_path ++ "/" ++time_stamp;
 };
 
+/* todo: do something non-blocking with Lwt */
+let read_all_dir = (~path="../save", ()) => {
+  Sys.readdir(path) |>
+  Array.map((file) => {
+    let full_path = path ++ "/" ++ file;
+    let oi = open_in(full_path);
+    
+    let rec take_it_all = (~message="", oi) => {
+      switch (input_line(oi)) {
+        | new_line => take_it_all(~message=message ++ "\n" ++ new_line, oi)
+        | exception End_of_file => message
+      };  
+    };
 
-module Storer: Friendsonly.StoreConfig = {
-  let store = (message: Friendsonly.message) => write_file(message.body, ~save_path=save);
+    take_it_all(oi); 
+  });
+
 };
 
 
+/* TODO: unsure why this lives here? */
+module Storer: Friendsonly.StoreConfig = {
+  let store = (message: Friendsonly.message) => write_file(message.body, ~save_path=save);
+  let read_all = (unit) => read_all_dir(~path=save, ());
+};
 
 
 module GPGChecker: Friendsonly.Crypto = {

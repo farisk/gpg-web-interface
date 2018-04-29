@@ -39,6 +39,7 @@ module MakeChallenger = (Crypto: Friendsonly.Crypto) => {
 
   let solve_challenge = (email:string, solution: string) => {
     let challenge = ChallengeMemory.get(email); /* TODO: handle optional */
+
     let form_gpg_input = "-----BEGIN PGP SIGNED MESSAGE-----\nHash: SHA256\n\n" ++ challenge ++ "\n" ++ solution;
     Lwt_io.print("the challenge is " ++ form_gpg_input);
     form_gpg_input |> 

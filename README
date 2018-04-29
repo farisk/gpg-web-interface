@@ -1,3 +1,7 @@
 ##Beware
 1. Prevent replay attacks
 2. How random is our random script?
+
+
+##TODO
+1. use the non-human interface for GPG ( see the man page! )

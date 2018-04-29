@@ -40,9 +40,14 @@ type challenge_resolve = {
   email: string,
 };
 
+[@deriving (yojson)]
+type messages = {
+  messages: array(string),
+};
+
 let accept_options = App.options("**", (_) => respond'(`String("OK")));
 
-
+/* vs_to_yojson */
 
 
 module Make = (FriendsOnly: Friendsonly.FriendsOnly, Challenger: Challenger.Challenger ) => {
@@ -82,9 +87,13 @@ module Make = (FriendsOnly: Friendsonly.FriendsOnly, Challenger: Challenger.Chal
         );
       });
 
-    let get_message = 
+
+    /* TODO: we should make a middleware to protect this route! */
+    let get_messages = 
       get("/messages", req => {
-       `String("Implement me!") |> respond'  
+        messages_to_yojson({messages: FriendsOnly.get_messages()}) |>
+        Yojson.Safe.to_string |>
+        (o) => `String(o) |> respond'
       });
 
     let make_message =
@@ -120,7 +129,7 @@ module Make = (FriendsOnly: Friendsonly.FriendsOnly, Challenger: Challenger.Chal
     middleware(Opium.Middleware.trace) |> 
     middleware(my_logging_middleware) |>
     make_message |>
-    get_message |>
+    get_messages |>
     get_challenge |>
     solve_challenge |>
     App.run_command;

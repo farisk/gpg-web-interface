@@ -17,6 +17,7 @@ type signature = string;
 
 module type StoreConfig = {
   let store: (message) => string;
+  let read_all: (unit) => array(string);
 };
 
 module type Crypto = {
@@ -25,6 +26,7 @@ module type Crypto = {
 
 module type FriendsOnly = {
   let store_message: (message) => Lwt.t(result(string, friend_error));
+  let get_messages: (unit) => array(string);
 };
 
 
@@ -37,9 +39,7 @@ module Make = (Store: StoreConfig, Crypto: Crypto) => {
           | Error(err) => Error(err)
   };
 
-  let get_auth = (challenge: string) => {
-
-  };
+  let get_messages = () => Store.read_all();
 
 };
 
