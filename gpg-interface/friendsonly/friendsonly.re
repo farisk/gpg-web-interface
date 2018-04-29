@@ -27,15 +27,20 @@ module type FriendsOnly = {
   let store_message: (message) => Lwt.t(result(string, friend_error));
 };
 
+
 module Make = (Store: StoreConfig, Crypto: Crypto) => {
   let store_message = (message: message) => {
       message.body |> 
       Crypto.check_signature >|=
         fun
-          | Ok(_) => Ok(Store.store(message))
+          | Ok(who_be) => {Store.store(message); Ok(who_be);}
           | Error(err) => Error(err)
   };
+
+  let get_auth = (challenge: string) => {
+
+  };
+
 };
 
-let version = "0.1";
 

@@ -1,0 +1,16 @@
+lib: [
+  "_build/install/default/lib/challenger/META" {"META"}
+  "_build/install/default/lib/challenger/opam" {"opam"}
+  "_build/install/default/lib/challenger/challenger.cmi" {"challenger.cmi"}
+  "_build/install/default/lib/challenger/challenger.cmx" {"challenger.cmx"}
+  "_build/install/default/lib/challenger/challenger.cmt" {"challenger.cmt"}
+  "_build/install/default/lib/challenger/challenger.re" {"challenger.re"}
+  "_build/install/default/lib/challenger/challenger.cma" {"challenger.cma"}
+  "_build/install/default/lib/challenger/challenger.cmxa" {"challenger.cmxa"}
+  "_build/install/default/lib/challenger/challenger.a" {"challenger.a"}
+  "_build/install/default/lib/challenger/challenger.cmxs" {"challenger.cmxs"}
+  "_build/install/default/lib/challenger/challenger.dune" {"challenger.dune"}
+]
+doc: [
+  "_build/install/default/doc/challenger/README.md"
+]

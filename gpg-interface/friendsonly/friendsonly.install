@@ -1,10 +1,18 @@
 lib: [
   "_build/install/default/lib/friendsonly/META" {"META"}
   "_build/install/default/lib/friendsonly/opam" {"opam"}
+  "_build/install/default/lib/friendsonly/friendsonly__Challenger.cmi" {"friendsonly__Challenger.cmi"}
+  "_build/install/default/lib/friendsonly/friendsonly__Challenger.cmx" {"friendsonly__Challenger.cmx"}
+  "_build/install/default/lib/friendsonly/friendsonly__Challenger.cmt" {"friendsonly__Challenger.cmt"}
+  "_build/install/default/lib/friendsonly/challenger.re" {"challenger.re"}
   "_build/install/default/lib/friendsonly/friendsonly.cmi" {"friendsonly.cmi"}
   "_build/install/default/lib/friendsonly/friendsonly.cmx" {"friendsonly.cmx"}
   "_build/install/default/lib/friendsonly/friendsonly.cmt" {"friendsonly.cmt"}
   "_build/install/default/lib/friendsonly/friendsonly.re" {"friendsonly.re"}
+  "_build/install/default/lib/friendsonly/friendsonly__.cmi" {"friendsonly__.cmi"}
+  "_build/install/default/lib/friendsonly/friendsonly__.cmx" {"friendsonly__.cmx"}
+  "_build/install/default/lib/friendsonly/friendsonly__.cmt" {"friendsonly__.cmt"}
+  "_build/install/default/lib/friendsonly/friendsonly__.ml-gen" {"friendsonly__.ml-gen"}
   "_build/install/default/lib/friendsonly/friendsonly.cma" {"friendsonly.cma"}
   "_build/install/default/lib/friendsonly/friendsonly.cmxa" {"friendsonly.cmxa"}
   "_build/install/default/lib/friendsonly/friendsonly.a" {"friendsonly.a"}

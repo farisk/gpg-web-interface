@@ -1,8 +1,3 @@
 ##Beware
-1. Communications to the API should be protected
-under https, to prevent replay attack. On the program level,
-reply is (will be?) prevented by a store of signatures over time,
-meaning the same message can not be sent twice
-if it is signed with the same key.
-
-
+1. Prevent replay attacks
+2. How random is our random script?

@@ -1,0 +1,7 @@
+(jbuild_version 1)
+
+(library
+ ((name challenger)
+  (public_name challenger)
+  (libraries (lwt friendsonly))
+  ))

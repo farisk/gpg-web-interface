@@ -33,8 +33,19 @@ type new_message = {
   message: string,
 };
 
+
+[@deriving (yojson)]
+type challenge_resolve = {
+  solution: string,
+  email: string,
+};
+
 let accept_options = App.options("**", (_) => respond'(`String("OK")));
-module Make = (FriendsOnly: Friendsonly.FriendsOnly) => {
+
+
+
+
+module Make = (FriendsOnly: Friendsonly.FriendsOnly, Challenger: Challenger.Challenger ) => {
   /*let json_of_pages = ({titles}) =>
     Ezjsonm.(dict([("titles", Ezjsonm.list(Ezjsonm.encode_string, titles ))]));
   */
@@ -45,6 +56,37 @@ module Make = (FriendsOnly: Friendsonly.FriendsOnly) => {
   };
 
   let runner = () => {
+
+    let get_challenge = 
+      get("/challenge", req => {
+         Challenger.get_challenge("bullshit@bullshit.com") >>=
+          (challenge) => `String(challenge) |> respond'
+      });
+
+
+    let solve_challenge = 
+      post("/challenge", req => {
+        Lwt.(
+          App.string_of_body_exn(req) >>= /*TODO: remove repition*/
+            (raw) => raw |>
+              Yojson.Safe.from_string |>
+              challenge_resolve_of_yojson |>
+              fun
+                | Ok({solution, email}) => 
+                  {Challenger.solve_challenge(email,solution) >>=
+                   fun
+                    | Some(email) => `String(email) |> respond'
+                    | None => `String("Scum Scum Scum") |> respond'
+                    } 
+                | Error(err) => `String("Bad input:" ++ err) |> respond'(~code=Cohttp.Code.status_of_code(400))
+        );
+      });
+
+    let get_message = 
+      get("/messages", req => {
+       `String("Implement me!") |> respond'  
+      });
+
     let make_message =
       post("/message", req => {
         Lwt.(
@@ -57,7 +99,7 @@ module Make = (FriendsOnly: Friendsonly.FriendsOnly) => {
                   new_message |>
                     execute_new_message >>=
                     fun
-                      | Ok(_) => `String("Ok") |> respond'
+                      | Ok(who_be) => `String(who_be) |> respond'
                       | Error(_) => `String("Bad") |> respond'(~code=Cohttp.Code.status_of_code(403))
                   }
                 | Error(err) => `String("Bad input:" ++ err) |> respond'(~code=Cohttp.Code.status_of_code(400))
@@ -78,6 +120,9 @@ module Make = (FriendsOnly: Friendsonly.FriendsOnly) => {
     middleware(Opium.Middleware.trace) |> 
     middleware(my_logging_middleware) |>
     make_message |>
+    get_message |>
+    get_challenge |>
+    solve_challenge |>
     App.run_command;
   };
 };
