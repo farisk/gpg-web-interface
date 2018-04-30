@@ -47,7 +47,10 @@ type messages = {
 
 let accept_options = App.options("**", (_) => respond'(`String("OK")));
 
-module Make = (FriendsOnly: Friendsonly.FriendsOnly, Challenger: Challenger.Challenger ) => {
+module Make = (FriendsOnly: Friendsonly.FriendsOnly,
+               Challenger: Challenger.Challenger) => {
+
+  let my_auth = Auth.m(Challenger.authenticate);
 
   let execute_new_message = (new_message) => {
     let s: Friendsonly.message = {body: new_message.message};
@@ -90,6 +93,14 @@ module Make = (FriendsOnly: Friendsonly.FriendsOnly, Challenger: Challenger.Chal
         (o) => `String(o) |> respond'
       });
 
+    let who_am_i =
+      get("/who_am_i", req => {
+        switch (Auth.user(req)) {
+          | Some({username}) => `String(username) |> respond'
+          | None => `String("not logged in!") |> respond'
+        };
+      });
+
     let make_message =
       post("/message", req => {
         Lwt.(
@@ -122,7 +133,9 @@ module Make = (FriendsOnly: Friendsonly.FriendsOnly, Challenger: Challenger.Chal
     middleware(Opium.Middleware.debug) |>
     middleware(Opium.Middleware.trace) |> 
     middleware(my_logging_middleware) |>
+    middleware(my_auth) |>
     make_message |>
+    who_am_i |>
     get_messages |>
     get_challenge |>
     solve_challenge |>

@@ -21,10 +21,26 @@ module ChallengeMemory = {
     };
   };
 
+module AuthMemory = {
+  let memory = Hashtbl.create(1000);
+  /* TODO: store date created, delete on expire*/
+
+  let store = (email: string, token: string) => {
+    Hashtbl.replace(memory, token, email);
+  };
+
+  let get_email = (token: string) => {
+    switch(Hashtbl.find(memory, token)) {
+      | email => Some(email)
+      | exception Not_found => None
+    };
+  };
+};
+
 module type Challenger = {
   let get_challenge: (string) => Lwt.t(string);
   let solve_challenge: (string, string) => Lwt.t(option(string));
-  let authenticate: (string) => bool;
+  let authenticate: (string) => option(string);
 };
 
 module MakeChallenger = (Crypto: Friendsonly.Crypto) => {
@@ -45,12 +61,18 @@ module MakeChallenger = (Crypto: Friendsonly.Crypto) => {
     form_gpg_input |> 
     Crypto.check_signature >|=
       fun 
-        | Ok(signed_with) => signed_with == email ? Some("Welcome " ++ signed_with) : None
+        | Ok(signed_with) => { 
+          ChallengeMemory.destroy(email);
+          signed_with == email ? {
+            AuthMemory.store(email, challenge);
+            Some("Welcome " ++ signed_with);
+          }: None;
+        }
         | Error(_) => None
   };
 
   let authenticate = (token) => {
-   false; 
+    AuthMemory.get_email(token);
   };
 
 };

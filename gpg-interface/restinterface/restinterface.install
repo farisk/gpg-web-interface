@@ -1,10 +1,18 @@
 lib: [
   "_build/install/default/lib/restinterface/META" {"META"}
   "_build/install/default/lib/restinterface/opam" {"opam"}
+  "_build/install/default/lib/restinterface/restinterface__Auth.cmi" {"restinterface__Auth.cmi"}
+  "_build/install/default/lib/restinterface/restinterface__Auth.cmx" {"restinterface__Auth.cmx"}
+  "_build/install/default/lib/restinterface/restinterface__Auth.cmt" {"restinterface__Auth.cmt"}
+  "_build/install/default/lib/restinterface/auth.re" {"auth.re"}
   "_build/install/default/lib/restinterface/restinterface.cmi" {"restinterface.cmi"}
   "_build/install/default/lib/restinterface/restinterface.cmx" {"restinterface.cmx"}
   "_build/install/default/lib/restinterface/restinterface.cmt" {"restinterface.cmt"}
   "_build/install/default/lib/restinterface/restinterface.re" {"restinterface.re"}
+  "_build/install/default/lib/restinterface/restinterface__.cmi" {"restinterface__.cmi"}
+  "_build/install/default/lib/restinterface/restinterface__.cmx" {"restinterface__.cmx"}
+  "_build/install/default/lib/restinterface/restinterface__.cmt" {"restinterface__.cmt"}
+  "_build/install/default/lib/restinterface/restinterface__.ml-gen" {"restinterface__.ml-gen"}
   "_build/install/default/lib/restinterface/restinterface.cma" {"restinterface.cma"}
   "_build/install/default/lib/restinterface/restinterface.cmxa" {"restinterface.cmxa"}
   "_build/install/default/lib/restinterface/restinterface.a" {"restinterface.a"}
