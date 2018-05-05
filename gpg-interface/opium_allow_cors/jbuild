@@ -1,0 +1,7 @@
+(jbuild_version 1)
+
+(library
+ ((name opium_allow_cors)
+  (public_name opium_allow_cors)
+  (libraries (opium lwt))
+  ))

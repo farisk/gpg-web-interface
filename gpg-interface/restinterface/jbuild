@@ -12,6 +12,7 @@
                ))
   (libraries (
               opium
+              opium_allow_cors
               yojson
               lwt
               ppx_deriving_yojson.runtime

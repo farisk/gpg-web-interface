@@ -1,33 +1,6 @@
 open Opium.Std;
 open Lwt.Infix;
 
-let add_cors_headers = (headers: Cohttp.Header.t) : Cohttp.Header.t =>
-  Cohttp.Header.add_list(
-    headers,
-    [
-      ("access-control-allow-origin", "*"),
-      ("access-control-allow-headers", "Accept, Content-Type"),
-      (
-        "access-control-allow-methods",
-        "GET, HEAD, POST, DELETE, OPTIONS, PUT, PATCH",
-      ),
-    ],
-  );
-
-
-let allow_cors = {
-  let filter = (handler, req) =>
-      handler(req) |> Lwt.map(
-      response => {
-        response
-        |> Response.headers
-        |> add_cors_headers
-        |> (headers) => {...response, Response.headers: headers};
-      }
-    );
-  Rock.Middleware.create(~name=("allow cors"), ~filter);
-};
-
 [@deriving (yojson)]
 type new_message = {
   message: string,
@@ -131,7 +104,7 @@ module Make = (FriendsOnly: Friendsonly.FriendsOnly,
 
 
     App.empty |> 
-    middleware(allow_cors) |> 
+    middleware(Opium_allow_cors.allow_cors) |> 
     accept_options |>
     middleware(Opium.Middleware.debug) |>
     middleware(Opium.Middleware.trace) |> 

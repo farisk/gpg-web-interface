@@ -1,0 +1,16 @@
+lib: [
+  "_build/install/default/lib/opium_allow_cors/META" {"META"}
+  "_build/install/default/lib/opium_allow_cors/opam" {"opam"}
+  "_build/install/default/lib/opium_allow_cors/opium_allow_cors.cmi" {"opium_allow_cors.cmi"}
+  "_build/install/default/lib/opium_allow_cors/opium_allow_cors.cmx" {"opium_allow_cors.cmx"}
+  "_build/install/default/lib/opium_allow_cors/opium_allow_cors.cmt" {"opium_allow_cors.cmt"}
+  "_build/install/default/lib/opium_allow_cors/opium_allow_cors.re" {"opium_allow_cors.re"}
+  "_build/install/default/lib/opium_allow_cors/opium_allow_cors.cma" {"opium_allow_cors.cma"}
+  "_build/install/default/lib/opium_allow_cors/opium_allow_cors.cmxa" {"opium_allow_cors.cmxa"}
+  "_build/install/default/lib/opium_allow_cors/opium_allow_cors.a" {"opium_allow_cors.a"}
+  "_build/install/default/lib/opium_allow_cors/opium_allow_cors.cmxs" {"opium_allow_cors.cmxs"}
+  "_build/install/default/lib/opium_allow_cors/opium_allow_cors.dune" {"opium_allow_cors.dune"}
+]
+doc: [
+  "_build/install/default/doc/opium_allow_cors/README.md"
+]
