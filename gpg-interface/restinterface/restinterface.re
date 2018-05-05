@@ -41,11 +41,29 @@ type challenge_resolve = {
 };
 
 [@deriving (yojson)]
+type challenge_request = {
+  email: string,
+};
+
+[@deriving (yojson)]
 type messages = {
   messages: array(string),
 };
 
 let accept_options = App.options("**", (_) => respond'(`String("OK")));
+
+/* TODO: handle decoding exception */
+let req_to_obj = (convertor, on_decode, req) => {
+  Lwt.(
+    App.string_of_body_exn(req) >>= 
+      (raw) => raw |>
+        Yojson.Safe.from_string |>
+        convertor |>
+        fun
+          | Ok(data) => on_decode(data) 
+          | Error(err) => `String("Bad input:" ++ err) |> respond'(~code=Cohttp.Code.status_of_code(400))
+  );
+};
 
 module Make = (FriendsOnly: Friendsonly.FriendsOnly,
                Challenger: Challenger.Challenger) => {
@@ -57,67 +75,52 @@ module Make = (FriendsOnly: Friendsonly.FriendsOnly,
     FriendsOnly.store_message({s});
   };
 
+  
   let runner = () => {
 
-    let get_challenge = 
-      get("/challenge", req => {
-         Challenger.get_challenge("bullshit@bullshit.com") >>=
+    let get_challenge = req_to_obj(challenge_request_of_yojson, ({email}) => {
+       Challenger.get_challenge(email) >>=
           (challenge) => `String(challenge) |> respond'
-      });
+    }) |> post("/get_challenge");
 
 
-    let solve_challenge = 
-      post("/challenge", req => {
-        Lwt.(
-          App.string_of_body_exn(req) >>= /*TODO: remove repition*/
-            (raw) => raw |>
-              Yojson.Safe.from_string |>
-              challenge_resolve_of_yojson |>
-              fun
-                | Ok({solution, email}) => 
-                  {Challenger.solve_challenge(email,solution) >>=
+    let solve_challenge = req_to_obj(challenge_resolve_of_yojson, ({solution, email}) => {
+      Challenger.solve_challenge(email,solution) >>=
                    fun
                     | Some(email) => `String(email) |> respond'
-                    | None => `String("Scum Scum Scum") |> respond'
-                    } 
-                | Error(err) => `String("Bad input:" ++ err) |> respond'(~code=Cohttp.Code.status_of_code(400))
-        );
-      });
+                    | None => `String("Bad Solution. Challenge destroyed.") |> respond'(~code=Cohttp.Code.status_of_code(403))
+    }) |> post("/challenge");
 
 
-    /* TODO: we should make a middleware to protect this route! */
     let get_messages = 
       get("/messages", req => {
-        messages_to_yojson({messages: FriendsOnly.get_messages()}) |>
-        Yojson.Safe.to_string |>
-        (o) => `String(o) |> respond'
+        switch (Auth.user(req)) {
+          | Some(_) => 
+                messages_to_yojson({messages: FriendsOnly.get_messages()}) |>
+                Yojson.Safe.to_string |>
+                (o) => `String(o) |> respond'
+          | None => `String("not logged in!") |> respond'(~code=Cohttp.Code.status_of_code(403))
+        }
       });
 
     let who_am_i =
       get("/who_am_i", req => {
         switch (Auth.user(req)) {
           | Some({username}) => `String(username) |> respond'
-          | None => `String("not logged in!") |> respond'
+          | None => `String("not authenticated!") |> respond'
         };
       });
 
-    let make_message =
-      post("/message", req => {
-        Lwt.(
-          App.string_of_body_exn(req) >>= 
-            (raw) => raw |> 
-              Yojson.Safe.from_string |> 
-              new_message_of_yojson |>
-              fun
-                | Ok(new_message) => {
-                  new_message |>
-                    execute_new_message >>=
-                    fun
-                      | Ok(who_be) => `String(who_be) |> respond'
-                      | Error(_) => `String("Bad") |> respond'(~code=Cohttp.Code.status_of_code(403))
-                  }
-                | Error(err) => `String("Bad input:" ++ err) |> respond'(~code=Cohttp.Code.status_of_code(400))
-        )});
+    let make_message = req_to_obj(new_message_of_yojson,
+        (new_message) => {
+          new_message |>
+            execute_new_message >>=
+            fun
+              | Ok(who_be) => `String(who_be) |> respond'
+              | Error(_) => `String("Bad") |> respond'(~code=Cohttp.Code.status_of_code(403))
+          }
+      ) |> post("/message");
+
     let my_logging_middleware = {
      let logger = (handler, req: Request.t) => {
              Lwt_io.printlf("connection on %S", req |> Request.uri |> Uri.to_string);
