@@ -3,8 +3,10 @@
 
 var ReactDOMRe = require("reason-react/src/ReactDOMRe.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
-var MessageSender$ReactTemplate = require("./MessageSender.bs.js");
+var App$ReactTemplate = require("./App.bs.js");
 
-ReactDOMRe.renderToElementWithId(ReasonReact.element(/* None */0, /* None */0, MessageSender$ReactTemplate.make(/* array */[])), "main");
+ReactDOMRe.renderToElementWithId(ReasonReact.element(/* None */0, /* None */0, App$ReactTemplate.make(/* array */[])), "main");
+
+ReasonReact.Router[/* push */0]("");
 
 /*  Not a pure module */
