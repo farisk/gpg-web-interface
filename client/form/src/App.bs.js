@@ -14,7 +14,7 @@ var component = ReasonReact.reducerComponent("App");
 function make() {
   var newrecord = component.slice();
   newrecord[/* render */9] = (function (param) {
-      var path = param[/* state */2];
+      var path = param[/* state */1];
       var tmp;
       var exit = 0;
       if (path) {
@@ -55,7 +55,7 @@ function make() {
               /* Sub */[
                 (function () {
                     return ReasonReact.Router[/* watchUrl */1]((function (url) {
-                                  return Curry._1(self[/* send */4], url[/* path */0]);
+                                  return Curry._1(self[/* send */3], url[/* path */0]);
                                 }));
                   }),
                 ReasonReact.Router[/* unwatchUrl */2]

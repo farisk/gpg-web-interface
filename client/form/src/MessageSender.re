@@ -57,7 +57,7 @@ let make = (_children) => {
                     )##value 
             ))) ></textarea>
       {get_status_message(self.state.save_fetcher)}
-      <button disabled=(self.state.save_fetcher == Pending |> Js.Boolean.to_js_boolean) onClick=((_) => self.send(SEND))>
+      <button disabled=(self.state.save_fetcher == Pending) onClick=((_) => self.send(SEND))>
         (ReasonReact.stringToElement("Send"))
       </button>
     </div>,

@@ -2,7 +2,8 @@ open Lwt.Infix;
 /* challenger stuff, to extract */
 module RandomChallenge = {
   let random_challenge = () => {
-    let command = ("", [|"sh", "random.sh"|]); 
+    Lwt_io.print("get from random...");
+    let command = ("", [|"sh", "nonrandom.sh"|]); 
     Lwt_process.pread(command)
   };
 };
@@ -46,8 +47,10 @@ module type Challenger = {
 module MakeChallenger = (Crypto: Friendsonly.Crypto) => {
 
   let get_challenge = (email) => {
+    Lwt_io.print("get challenge");
     RandomChallenge.random_challenge() >|=
     (rand) => {
+      Lwt_io.print("output is " ++ rand);
       ChallengeMemory.store(email, rand);
       rand;
     };

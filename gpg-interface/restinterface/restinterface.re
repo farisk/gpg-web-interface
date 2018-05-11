@@ -53,7 +53,10 @@ module Make = (FriendsOnly: Friendsonly.FriendsOnly,
 
     let get_challenge = req_to_obj(challenge_request_of_yojson, ({email}) => {
        Challenger.get_challenge(email) >>=
-          (challenge) => `String(challenge) |> respond'
+          (challenge) => {
+              Lwt_io.print("challenge be   " ++ challenge);
+              `String(challenge) |> respond';
+          };
     }) |> post("/get_challenge");
 
 

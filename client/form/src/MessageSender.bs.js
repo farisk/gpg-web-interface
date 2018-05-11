@@ -5,7 +5,6 @@ var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var Fetch = require("bs-fetch/src/Fetch.js");
 var React = require("react");
-var Js_boolean = require("bs-platform/lib/js/js_boolean.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 
 var url = "http://127.0.0.1:3000";
@@ -14,14 +13,14 @@ var component = ReasonReact.reducerComponent("Sender");
 
 function send_message(self) {
   var payload = { };
-  payload["message"] = self[/* state */2][/* message */1];
+  payload["message"] = self[/* state */1][/* message */1];
   fetch("http://127.0.0.1:3000/message", Fetch.RequestInit[/* make */0](/* Some */[/* Post */2], /* Some */[{
                     "Content-Type": "application/json"
                   }], /* Some */[JSON.stringify(payload)], /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0)(/* () */0)).then((function (res) {
             var match = +res.ok;
-            return Promise.resolve(Curry._1(self[/* send */4], match !== 0 ? /* SEND_SUCCESS */1 : /* ERROR */Block.__(1, [/* Bad_Input */1])));
+            return Promise.resolve(Curry._1(self[/* send */3], match !== 0 ? /* SEND_SUCCESS */1 : /* ERROR */Block.__(1, [/* Bad_Input */1])));
           })).catch((function () {
-          return Promise.resolve(Curry._1(self[/* send */4], /* ERROR */Block.__(1, [/* Conns */0])));
+          return Promise.resolve(Curry._1(self[/* send */3], /* ERROR */Block.__(1, [/* Conns */0])));
         }));
   return /* () */0;
 }
@@ -48,14 +47,14 @@ function make() {
   var newrecord = component.slice();
   newrecord[/* render */9] = (function (self) {
       return React.createElement("div", undefined, React.createElement("textarea", {
-                      value: self[/* state */2][/* message */1],
+                      value: self[/* state */1][/* message */1],
                       onChange: (function (evt) {
-                          return Curry._1(self[/* send */4], /* UPDATE_TEXT */Block.__(0, [evt.target.value]));
+                          return Curry._1(self[/* send */3], /* UPDATE_TEXT */Block.__(0, [evt.target.value]));
                         })
-                    }), get_status_message(self[/* state */2][/* save_fetcher */0]), React.createElement("button", {
-                      disabled: Js_boolean.to_js_boolean(+(self[/* state */2][/* save_fetcher */0] === /* Pending */1)),
+                    }), get_status_message(self[/* state */1][/* save_fetcher */0]), React.createElement("button", {
+                      disabled: +(self[/* state */1][/* save_fetcher */0] === /* Pending */1),
                       onClick: (function () {
-                          return Curry._1(self[/* send */4], /* SEND */0);
+                          return Curry._1(self[/* send */3], /* SEND */0);
                         })
                     }, "Send"));
     });
@@ -68,7 +67,7 @@ function make() {
   newrecord[/* reducer */12] = (function (action, state) {
       if (typeof action === "number") {
         if (action === 0) {
-          return /* UpdateWithSideEffects */Block.__(3, [
+          return /* UpdateWithSideEffects */Block.__(2, [
                     /* record */[
                       /* save_fetcher : Pending */1,
                       /* message */state[/* message */1]

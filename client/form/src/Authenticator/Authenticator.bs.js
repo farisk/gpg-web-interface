@@ -7,18 +7,35 @@ var Fetch = require("bs-fetch/src/Fetch.js");
 var React = require("react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Config$ReactTemplate = require("../config.bs.js");
-var Caml_builtin_exceptions = require("bs-platform/lib/js/caml_builtin_exceptions.js");
+var Solver$ReactTemplate = require("./Solver.bs.js");
 
 function challenge_request(self) {
   var payload = { };
-  payload["email"] = self[/* state */2][/* email */0];
+  payload["email"] = self[/* state */1][/* email */0];
   fetch(Config$ReactTemplate.api_url + "/get_challenge", Fetch.RequestInit[/* make */0](/* Some */[/* Post */2], /* Some */[{
-                    "Content-Type": "application/json"
-                  }], /* Some */[JSON.stringify(payload)], /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0)(/* () */0)).then((function (res) {
-            var match = +res.ok;
-            return Promise.resolve(Curry._1(self[/* send */4], match !== 0 ? /* SEND_SUCCESS */1 : /* ERROR */Block.__(1, [/* Bad_Input */1])));
+                      "Content-Type": "application/json"
+                    }], /* Some */[JSON.stringify(payload)], /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0)(/* () */0)).then((function (prim) {
+              return prim.text();
+            })).then((function (text) {
+            return Promise.resolve(Curry._1(self[/* send */3], /* UPDATE_SEND_STATE */Block.__(1, [/* Success */Block.__(0, [text])])));
           })).catch((function () {
-          return Promise.resolve(Curry._1(self[/* send */4], /* ERROR */Block.__(1, [/* Conns */0])));
+          return Promise.resolve(Curry._1(self[/* send */3], /* UPDATE_SEND_STATE */Block.__(1, [/* Failed */Block.__(1, [/* Conns */0])])));
+        }));
+  return /* () */0;
+}
+
+function solve_challenge(self, solution) {
+  var payload = { };
+  payload["email"] = self[/* state */1][/* email */0];
+  payload["solution"] = solution;
+  fetch(Config$ReactTemplate.api_url + "/solve_challenge", Fetch.RequestInit[/* make */0](/* Some */[/* Post */2], /* Some */[{
+                      "Content-Type": "application/json"
+                    }], /* Some */[JSON.stringify(payload)], /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0)(/* () */0)).then((function (prim) {
+              return prim.text();
+            })).then((function (text) {
+            return Promise.resolve(Curry._1(self[/* send */3], /* UPDATE_SOLVE_CHALLENGE_STATE */Block.__(2, [/* Success */Block.__(0, [text])])));
+          })).catch((function () {
+          return Promise.resolve(Curry._1(self[/* send */3], /* UPDATE_SOLVE_CHALLENGE_STATE */Block.__(2, [/* Failed */Block.__(1, [/* Conns */0])])));
         }));
   return /* () */0;
 }
@@ -28,70 +45,76 @@ var component = ReasonReact.reducerComponent("Authenticator");
 function make() {
   var newrecord = component.slice();
   newrecord[/* render */9] = (function (self) {
-      var match = self[/* state */2][/* send_state */1];
+      var match = self[/* state */1][/* send_state */1];
       var tmp;
       if (match) {
         var match$1 = match[0];
-        tmp = typeof match$1 === "number" ? (
-            match$1 !== 0 ? "Complte" : "Loading..."
-          ) : "Failed";
+        tmp = typeof match$1 === "number" ? "Loading..." : (
+            match$1.tag ? "Failed" : ReasonReact.element(/* None */0, /* None */0, Solver$ReactTemplate.make(match$1[0], (function (param) {
+                          return solve_challenge(self, param);
+                        }), self[/* state */1][/* send_challenge_state */2], /* array */[]))
+          );
       } else {
-        tmp = "";
-      }
-      return React.createElement("div", undefined, React.createElement("h2", undefined, "Request a challenge to authenticate yourself."), React.createElement("label", undefined, "Email:", React.createElement("input", {
-                          value: self[/* state */2][/* email */0],
-                          onChange: (function (evt) {
-                              var new_value = evt.target.value;
-                              return Curry._1(self[/* send */4], /* SET_EMAIL */Block.__(0, [new_value]));
-                            })
-                        })), React.createElement("button", {
-                      onClick: (function () {
-                          return Curry._1(self[/* send */4], /* SEND */0);
+        tmp = React.createElement("div", undefined, React.createElement("h2", undefined, "1. Request a challenge to authenticate yourself."), React.createElement("label", undefined, "Email:", React.createElement("input", {
+                      value: self[/* state */1][/* email */0],
+                      onChange: (function (evt) {
+                          var new_value = evt.target.value;
+                          return Curry._1(self[/* send */3], /* SET_EMAIL */Block.__(0, [new_value]));
                         })
-                    }, "Request"), tmp);
+                    })), React.createElement("button", {
+                  onClick: (function () {
+                      return Curry._1(self[/* send */3], /* SEND */0);
+                    })
+                }, "Request"));
+      }
+      return React.createElement("div", undefined, tmp);
     });
   newrecord[/* initialState */10] = (function () {
       return /* record */[
               /* email */"",
-              /* send_state : None */0
+              /* send_state : None */0,
+              /* send_challenge_state : None */0
             ];
     });
   newrecord[/* reducer */12] = (function (action, state) {
       if (typeof action === "number") {
-        if (action === 0) {
-          return /* UpdateWithSideEffects */Block.__(3, [
-                    /* record */[
-                      /* email */state[/* email */0],
-                      /* send_state : Some */[/* Pending */0]
-                    ],
-                    challenge_request
-                  ]);
-        } else {
-          return /* Update */Block.__(0, [/* record */[
-                      /* email */state[/* email */0],
-                      /* send_state : Some */[/* Success */1]
-                    ]]);
-        }
-      } else if (action.tag) {
-        throw [
-              Caml_builtin_exceptions.match_failure,
-              [
-                "Authenticator.re",
-                34,
-                45
-              ]
-            ];
+        return /* UpdateWithSideEffects */Block.__(2, [
+                  /* record */[
+                    /* email */state[/* email */0],
+                    /* send_state : Some */[/* Pending */0],
+                    /* send_challenge_state */state[/* send_challenge_state */2]
+                  ],
+                  challenge_request
+                ]);
       } else {
-        return /* Update */Block.__(0, [/* record */[
-                    /* email */action[0],
-                    /* send_state */state[/* send_state */1]
-                  ]]);
+        switch (action.tag | 0) {
+          case 0 : 
+              return /* Update */Block.__(0, [/* record */[
+                          /* email */action[0],
+                          /* send_state */state[/* send_state */1],
+                          /* send_challenge_state */state[/* send_challenge_state */2]
+                        ]]);
+          case 1 : 
+              return /* Update */Block.__(0, [/* record */[
+                          /* email */state[/* email */0],
+                          /* send_state : Some */[action[0]],
+                          /* send_challenge_state */state[/* send_challenge_state */2]
+                        ]]);
+          case 2 : 
+              return /* Update */Block.__(0, [/* record */[
+                          /* email */state[/* email */0],
+                          /* send_state */state[/* send_state */1],
+                          /* send_challenge_state : Some */[action[0]]
+                        ]]);
+          
+        }
       }
     });
   return newrecord;
 }
 
 exports.challenge_request = challenge_request;
+exports.solve_challenge = solve_challenge;
 exports.component = component;
 exports.make = make;
 /* component Not a pure module */
